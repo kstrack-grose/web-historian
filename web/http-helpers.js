@@ -14,8 +14,24 @@ exports.serveAssets = function(res, asset, callback) {
   // Write some code here that helps serve up your static files!
   // (Static files are things like html (yours or archived from others...),
   // css, or anything that doesn't change often.)
+
+    // send headers with status code 200
+    // send file
+
+  res.writeHead(200, this.headers);
+  fs.readFile(path.resolve(asset), function(err, html) {
+    res.write(html);
+    res.end();
+    if(callback){
+      callback();
+    }
+  });
 };
 
+exports.return404 = function(req, res) {
+  res.writeHead(404, this.headers);
+  res.end();
+};
 
 
 // As you progress, keep thinking about what helper functions you can put here!
