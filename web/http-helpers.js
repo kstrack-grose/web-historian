@@ -11,7 +11,7 @@ exports.headers = headers = {
 };
 
 exports.isInPublic = function(url, cb){
-  fs.exists(path.resolve('./public/') + url, cb);
+  fs.exists(path.join(__dirname,'./public') + url, cb);
 };
 
 exports.serveAssets = function(res, asset, callback) {

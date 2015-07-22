@@ -14,6 +14,7 @@ exports.handleRequest = function (req, res) {
 
   var urlParts = urlParser.parse(req.url);
   var reqPath = urlParts.pathname;
+  console.log("Hendeling ", req.method, " for ", req.url);
   if (routes[reqPath]) {
     routes[reqPath](req, res);
   } else {

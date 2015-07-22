@@ -52,12 +52,14 @@ exports.addUrlToList = function(url, callback){
         exports.downloadUrl(url);
         callback();
       });
+    }else {
+      callback();
     }
   });
 };
 
 exports.isUrlArchived = function(url, callback){
-  fs.exists(exports.paths.archivedSites + url, callback);
+  fs.exists(exports.paths.archivedSites + '/' + url, callback);
 };
 
 exports.downloadUrl = function(url){
