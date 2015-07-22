@@ -13,11 +13,29 @@ exports.handleRequest = function (req, res) {
   };
 
   var urlParts = urlParser.parse(req.url);
-  if (routes[urlParts.pathname]) {
-    routes[urlParts.pathname](req, res);
+  var reqPath = urlParts.pathname;
+  if (routes[reqPath]) {
+    routes[reqPath](req, res);
   } else {
-    http_helper.return404(req, res);
+    http_helper.isInPublic(reqPath, function(is) {
+      if (is) {
+        http_helper.serveAssets(res, './public' + reqPath);
+      } else {
+        archive.isUrlArchived(reqPath, function(is) {
+          if (is) {
+            http_helper.serveAssets(res, './../archives/sites' + reqPath);
+          } else {
+            archive.isUrlInList(reqPath, function(is) {
+              if (is) {
+                http_helper.serveAssets(res, './public/loading.html');
+              } else {
+                http_helper.return404(req, res);
+              }
+            });
+          }
+        });
+      }
+    });
   }
-
-  //res.end(archive.paths.list);
 };
+

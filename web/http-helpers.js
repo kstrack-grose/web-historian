@@ -10,6 +10,10 @@ exports.headers = headers = {
   'Content-Type': "text/html"
 };
 
+exports.isInPublic = function(url, cb){
+  fs.exists(path.resolve('./public/') + url, cb);
+};
+
 exports.serveAssets = function(res, asset, callback) {
   // Write some code here that helps serve up your static files!
   // (Static files are things like html (yours or archived from others...),
@@ -19,7 +23,7 @@ exports.serveAssets = function(res, asset, callback) {
     // send file
 
   res.writeHead(200, this.headers);
-  fs.readFile(path.resolve(asset), function(err, html) {
+  fs.readFile(path.join(__dirname, asset),function(err, html) {
     res.write(html);
     res.end();
     if(callback){
