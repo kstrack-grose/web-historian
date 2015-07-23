@@ -49,7 +49,7 @@ exports.addUrlToList = function(url, callback){
     if(!is){
       fs.appendFile(exports.paths.list, url + '\n', function(err){
         if(err) throw err;
-        exports.downloadUrl(url);
+        //exports.downloadUrl(url); (Cody was cheating)
         callback();
       });
     }else {
@@ -66,9 +66,13 @@ exports.downloadUrl = function(url){
   var options = {};
   options.url = url;
 
-  httpRequest.get(options, exports.paths.archivedSites + '/' + url, function(err){
-    if(err) throw err;
-  });
+  if(options.url !== ""){
+    httpRequest.get(options, exports.paths.archivedSites + '/' + url, function(err){
+      if(err) throw err;
+    });
+  }
+
+  
 };
 
 exports.downloadUrls = function(array){
